@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Rapport IFT3150</title>
+    <meta name="description" content="Rapport pour le projet IFT3150 de Hamdi Ghannem, Hiver 2022">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <style>
+        /* Font */
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+
+        /* Sidebar */
+        :root {--sidebar-width: 120px;}
+        .sidebar{height:100%;width:var(--sidebar-width);position:fixed!important;z-index:1;overflow:auto}
+        #main {margin-left:var(--sidebar-width)}
+        /* Remove margins from "page content" on small screens */
+        @media only screen and (max-width: 600px) {#main {margin-left: 0} .sidebar {display: none}}
+        /* Sidebar buttons */
+        a {background-color: #fff; color: #000; text-decoration: underline;}
+        a:hover {background-color: #f9db07; color: #000}
+        a:active {background-color: #000; color: #fff}
+        .sidebar-link {padding: 0.5em; display: block; text-decoration: none;}
+
+        /* Title */
+	.logo_lien:hover {background-color: #fff}
+        #titre {display: inline-block;vertical-align: top}
+
+        /* Tasks in the progress reports */
+        table {width: 900px; border-collapse: collapse; margin:50px auto; border: none}
+        td, th {padding: 10px; border: none; text-align: left; font-size: 18px}
+        .label tr td label {display: block}
+        .toggled {display: none}
+        [data-toggle="toggle"] {display: none}
+
+        /* Progress bar charts */
+        .charts {
+            margin: auto;
+            width: fit-content;
+        }
+        .chart-wrap {
+            padding: 0px 300px 0px 0px;
+            font-family: sans-serif;
+            height: 500px;
+            width: 350px;
+            display: inline-block;
+            vertical-align: bottom;
+        }
+        .chart-wrap .chart-title {
+            font-weight: bold;
+            padding: 0.5em 0 5em 0;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .chart-wrap.vertical .grid {
+            transform: translateY(-150px) translateX(150px) rotate(-90deg);
+        }
+        .chart-wrap.vertical .grid .bar::after {
+            transform: rotate(90deg);
+            display: block;
+        }
+        .chart-wrap.vertical .grid::before,
+        .chart-wrap.vertical .grid::after {
+            transform: translateX(-0.2em) rotate(90deg);
+        }
+        .chart-wrap .grid {
+            position: relative;
+            padding: 5px 0 5px 0;
+            height: 100%;
+            width: 100%;
+            border-left: 2px solid #aaa;
+            background: repeating-linear-gradient(90deg, transparent, transparent 19.5%, rgba(170, 170, 170, 0.7) 20%);
+        }
+        .chart-wrap .bar {
+            width: var(--bar-value);
+            height: 40px;
+            margin: 1px 0;
+            background-color: #f9db07;
+            border-radius: 0 3px 3px 0;
+        }
+        .chart-wrap .bar:hover {
+            opacity: 0.7;
+        }
+        .chart-wrap .bar::after {
+            content: attr(data-name);
+            margin-left: 100%;
+            padding: 10px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+    </style>
+    <script>
+        function whenDOMReady(callback, options = { once: true, passive: true }) {
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", callback, options);
+            } else {
+                callback();
+            }
+        }
+
+        whenDOMReady( () => {
+            const toggleElements = document.querySelectorAll("[data-toggle='toggle']");
+            for (const el of toggleElements) {
+                let targetElement = el.parentElement.parentElement.parentElement.nextElementSibling;
+                el.addEventListener("change", function() {
+                    if (targetElement.classList.contains("toggled")) {
+                        targetElement.classList.remove("toggled");
+                    } else {
+                        targetElement.classList.add("toggled");
+                    }
+                })
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="sidebar">
+        <a href="#main" class="sidebar-link">Haut de page</a>
+        <a href="#retour" class="sidebar-link">Retour</a>
+    </nav>
+    <div id="main">
+        <header>
+            <div id="titre" height="140">
+                <h1>Rapport IFT3150</h1>
+                <h2>Hamdi Ghannem</h2>
+            </div>
+        </header>
+
+        <div>
+        <h3>Semaine 1</h3>
+        <p>Pour cette premiere semaine, j'ai fait une rencontre avec Bastin pour parler du projet, j'ai commencé à voir un petit peu comment CUDA marche, et comment définir des arrays en CUDA</p>
+
+        <h3>Semaine 2</h3>
+        <p>Pour cette semaine, j'ai commencé à voir la video du workbench de Julia GPU, où il explique comment créer un kernel pour paralléliser les calculs matriciels avec CUDA</p>
+        <p>J'ai aussi commencé à faire des petits tests avec des multiplications de matrices</p>
+
+        <h3>Semaine 3</h3>
+        <p>Pour cette semaine, j'ai appris encore plus sur comment utiliser CUDA, mais surtout j'ai lu beaucoup de codes sur GitHub implémentant le simplexe en CPU pour trouver des bonnes stratégies pour attaquer le projet</p>
+        
+        <h3>Semaine 4</h3>
+        <p>Pour cette semaine, j'ai voulu découvrir comment interfacer un solveur avec MOI et JuMP, alors j'ai lu tout le MOI wrapper de GLPK.jl pour voir comment c'est implémenté dans des grandes librairies</p>
+        
+        <h3>Semaine 5</h3>
+        <p>J'ai découvert que réellement, interfacer un solveur avec MOI et JuMP est loin d'être trivial, j'ai eu une rencontre avec Bastin pour parler des priorités du projet. On a donc choisi d'abandonner JuMP et MOI</p>
+        <p>J'ai continué à apprendre beaucoup plus sur CUDA et j'ai commencé à faire des fonctions de pivotage de matrices avec un custom kernel</p>
+        
+        <h3>Semaine 6</h3>
+        <p>Je decouvre encore que l'implémentation avec un custom kernel pour le pivot n'est pas thread safe, j'en parle avec Bastin pour lui suggérer de changer le simplexe standard vers le simplexe révisé</p>
+        <p>puisque j'ai vu que les multiplications fait par le GPU sont vraiment plus rapides que celles du CPU et on pourrait exploiter ça en utilisant le simplexe révisé</p>
+        
+        <h3>Semaine 7</h3>
+        <p>On change alors la direction du projet et je commence à m'attaquer sur les algorithmes pour trouver les variables entrantes et les variables sortantes dans le simplexe révisé</p>
+        <p>Tout marche quasiment, sauf que j'ai des problemes de performances et j'essaie de fixer ça</p>
+        
+        <h3>Semaine 8</h3>
+        <p>Cette semaine j'ai pu trouver comment fixer mes bugs de performances, en utilisant de la vectorisation au lieu d'utiliser filter puisque la methode filter utilise des for loops implicitement dans le code du CPU</p>
+        <p>et que les CuArrays n'apprecient vraiment pas l'indexage</p>
+
+        <h3>Semaine 9</h3>
+        <p>Semaine remplie de devoirs, je fais une petite pause pour le projet en pensant encore plus sur comment je pourrais implémenter le reste du simplexe révisé</p>
+
+        <h3>Semaine 10</h3>
+        <p>Cette semaine j'ai rencontré mon plus grand bug à date, je n'arrive pas à trouver les indices exacts des colonnes entrantes et je ne sais pas comment gérer ça</p>
+
+        <h3>Semaine 11</h3>
+        <p>J'essaie encore de trouver une solution pour le bug que j'ai rencontré la semaine derniere, entre temps j'essaie d'implementer d'autres fonctions du simplexe comme l'update au complet</p>
+        <p>En supposant que je n'ai pas ce bug</p>
+
+        <h3>Semaine 12</h3>
+        <p>J'arrive enfin à trouver une solution pour le bug, j'implemente un presolve qui va prendre en argument un problème linéaire sous la forme d'un simplexe standard</p>
+        <p>J'implemente un algorithme pour trouver les variables isolées et faisables dans mon problème linéaire et j'arrive presque à la fin</p>
+
+        <h3>Semaine 13</h3>
+        <p>Je n'ai pas eu le temps de travailler sur le projet, puisque j'ai eu mes examens finaux, toutefois, j'ai trouvé quelques idées pour améliorer mon code pour que je puisse l'implémenter complétement la semaine prochaine</p>
+
+        <h3>Semaine 14</h3>
+        <p>Cette dernière semaine, j'ai pu ajouter l'algorithme de la phase une pour pouvoir handle les cas où mon problème ne possède pas de base réalisable</p>
+        <p>J'ai eu beaucoup de bugs numériques à cause des erreurs de precisions machines que j'ai pu fixer en ayant un critère d'arrêt plus tolérable</p>
+        <p>J'ai pu aussi fixer un bug ou je supprimais mes variables artificielles alors que j'en ai toujours dans ma base</p>
+
+        </div>
+        <div id="retour">
+            <h2>Rapport final</h2>
+            <ul>
+            <li><a href="https://github.com/DeniedPyro/RevisedSimplexCUDA">Lien vers le GitHub du projet qui contient le rapport final</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
